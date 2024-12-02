@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tombola Standard</title>
+    <style>
+        body {
+            background-color: #f0f8ff;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 50px;
+            margin: 0;
+        }
+
+        h1 {
+            color: #4caf50;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        b {
+            background: linear-gradient(135deg, #f9f9f9, #e0e0e0);
+            width: 60px;
+            height: 60px;
+            line-height: 60px;
+            font-size: 1.5rem;
+            display: inline-block;
+            margin: 10px;
+            border: 3px solid #4caf50;
+            border-radius: 50%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="button"] {
+            background-color: #4caf50;
+            color: #fff;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        #result-box {
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            background-color: #e8f5e9;
+            font-size: 1rem;
+            text-align: center;
+            max-width: 400px;
+            margin: 20px auto;
+            word-wrap: break-word;
+        }
+
+        #result-box div {
+            margin: 10px 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .number {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 0 5px;
+            border: 2px solid #4caf50;
+            border-radius: 5px;
+            background-color: #ffffff;
+            color: #4caf50;
+            font-size: 1.1rem;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Overlay styles */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            text-align: center;
+            display: none;
+            flex-direction: column;
+        }
+
+        #overlay img {
+            max-width: 100px;
+            max-height: 100px;
+            margin-bottom: 20px;
+        }
+
+        #overlay div {
+            color: #fff;
+            font-size: 1.5rem;
+        }
+    </style>
+    <script>
+        let availableNumbers = Array.from({ length: 100 }, (_, i) => i); // Numbers from 0 to 99
+        let results = [];
+
+        const tirage = function () {
+            if (availableNumbers.length < 1) {
+                alert("Tous les numéros ont été tirés !");
+                return;
+            }
+
+            // Tirer un numéro au hasard
+            const randomIndex = Math.floor(Math.random() * availableNumbers.length);
+            const number = availableNumbers[randomIndex];
+
+            // Supprimer le numéro tiré
+            availableNumbers.splice(randomIndex, 1);
+
+            // Mettre à jour les boules (afficher un seul numéro)
+            document.getElementById("b1").innerHTML = number;
+
+            // Ajouter le résultat dans l'encadré
+            updateResultBox(number);
+        };
+
+        const updateResultBox = function (number) {
+            const resultBox = document.getElementById("result-box");
+            const newLine = `<div>Tirage ${results.length + 1}: <span class="number">${number}</span></div>`;
+            resultBox.innerHTML += newLine;
+
+            // Ajouter à la liste des résultats
+            results.push(number);
+        };
+
+        const showOverlay = function () {
+            const overlay = document.getElementById("overlay");
+            overlay.style.display = "flex";
+
+            setTimeout(() => {
+                overlay.style.display = "none";
+                tirage();
+            }, 10000); // 10 seconds
+        };
+    </script>
+</head>
+
+<body>
+    <div id="overlay">
+        <!-- Video loader-->
+        <video id="loading-video" src="loto.mp4" alt="Loader" loop muted>
+            Votre navigateur ne supporte pas la vidéo.
+        </video>
+        <div>Veuillez patienter...</div>
+    </div>
+
+    <h1>Tombola</h1>
+    <b id="b1">?</b>
+    <br><br>
+    <input type="button" value="Nouveau tirage" onclick="showOverlay();">
+    <div id="result-box"></div>
+</body>
+
+</html>

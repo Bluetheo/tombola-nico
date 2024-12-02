@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tombola</title>
+    <style>
+        body {
+            background-image: url('image.png'); /* Remplacez 'image.png' par le nom de votre fichier */
+            background-size: 2560px 1440px; /* Redimensionne l'image à 1366x768 */
+            background-position: center; /* Centre l'image horizontalement et verticalement */
+            background-repeat: no-repeat; /* Empêche la répétition de l'image */
+            height: 100vh; /* Hauteur de la page */
+            margin: 0; /* Supprime les marges par défaut */
+            text-align: center; /* Centre le texte */
+        }
+
+        h1 {
+            font-size: 2.5em; /* Augmente la taille de l'en-tête */
+            color: white; /* Rendre le texte lisible */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Ajoute une ombre au texte */
+        }
+
+        p {
+            font-size: 1.2em; /* Taille du texte du paragraphe */
+            color: white;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .myButton {
+            background-color: #ff6f61; /* Couleur du bouton */
+            color: white; /* Couleur du texte */
+            font-size: 1.2em; /* Taille du texte */
+            padding: 15px 30px; /* Espacement interne du bouton */
+            border: none; /* Supprime les bordures */
+            border-radius: 10px; /* Arrondit les coins */
+            cursor: pointer; /* Change le curseur au survol */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Ombre sous le bouton */
+            transition: transform 0.2s ease, box-shadow 0.2s ease; /* Ajoute une transition pour les effets */
+        }
+
+        .myButton:hover {
+            transform: translateY(-2px); /* Déplace légèrement vers le haut au survol */
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); /* Renforce l'ombre */
+            background-color: #ff5745; /* Change la couleur au survol */
+        }
+
+        .myButton:active {
+            transform: translateY(2px); /* Effet d'enfoncement */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <h1>Tombola 50 ans Bordeaux 65</h1>
+    <p>
+        Bienvenue à cette tombola.<br>
+        Pour pouvoir commencer, veuillez sélectionner la catégorie de tirage que vous souhaitez tirer.
+    </p>
+    <div class="bouton">
+        <button class="myButton" role="button" onclick="window.location.href = 'tombola.html';">Play</button>
+    </div>
+</body>
+</html>
