@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golden Tombola</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <style>
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 50px;
+            margin: 0;
+            background-image: url('images/diamond.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+
+        h1 {
+            color: black;
+            font-size: 3rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        b {
+            background: linear-gradient(135deg, #4b8035, #4b8035);
+            width: 180px;
+            height: 180px;
+            line-height: 180px;
+            font-size: 5rem;
+            display: inline-block;
+            margin: 15px;
+            border: 3px solid #FFD700;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        b:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        img {
+            max-width: 200px;
+            height: auto;
+            margin-bottom: 30px;
+            animation: bounce 3s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        input[type="button"] {
+            background-color: #E5C100;
+            color: black;
+            font-size: 1.5rem;
+            border: none;
+            border-radius: 35px;
+            padding: 15px 30px;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        input[type="button"]:hover {
+            background-color: #D4AF37;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        #container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #left-content {
+            flex: 0 0 auto;
+            text-align: center;
+        }
+
+        #result-box {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            /* 5 colonnes */
+            gap: 10px;
+            max-width: 700px;
+            margin-left: 20px;
+            padding: 20px;
+            border: 2px solid #4caf50;
+            border-radius: 15px;
+            background-color: #e8f5e9;
+        }
+
+        .lot-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .lot-title {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .number {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 3px solid #211F20;
+            border-radius: 10px;
+            background-color: #4b8035;
+            color: #FFD700;
+            font-size: 3rem;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 60px;
+            /* Largeur uniforme pour tous les numéros */
+            height: 60px;
+            /* Hauteur uniforme pour tous les numéros */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .number:hover {
+            transform: scale(1.1);
+        }
+
+
+        /***** css pour l'overlay *****/
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            text-align: center;
+            display: none;
+            flex-direction: column;
+            padding: 40px;
+        }
+
+        #overlay video {
+            max-width: 1000px;
+            margin-bottom: 30px;
+        }
+
+        #overlay div {
+            color: #fff;
+            font-size: 2rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Style du bouton Retour */
+        #return-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: #ff5722;
+            color: white;
+            font-size: 1rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        #return-button:hover {
+            background-color: #e64a19;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        #title-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 20px;
+            /* Espacement entre les images et le titre */
+        }
+
+        #title-container img {
+            max-width: 150px;
+            /* Limitez la taille des images */
+            height: auto;
+        }
+
+        #title-container h1 {
+            margin: 0;
+            color: green;
+            font-size: 3rem;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <script>
+        let availableNumbers = Array.from({ length: 100 }, (_, i) => i + 1); // Nombres de 1 à 100
+        let results = [];
+        const forcedNumbers = [5, 6, 7]; // Les numéros forcés
+
+        const tirage = function () {
+            if (results.length >= 25) {
+                // Si aucun numéro forcé n'a été tiré, forcer l'ajout
+                if (!results.some(num => forcedNumbers.includes(num))) {
+                    const forcedNumber =
+                        forcedNumbers[Math.floor(Math.random() * forcedNumbers.length)];
+                    results.push(forcedNumber);
+                    updateResultBox(forcedNumber);
+                }
+                alert("Le tirage est terminé ! 25 numéros gagnants ont été tirés.");
+                return;
+            }
+
+            if (availableNumbers.length < 1) {
+                alert("Tous les numéros ont été tirés !");
+                return;
+            }
+
+            // Tirer un numéro au hasard
+            const randomIndex = Math.floor(Math.random() * availableNumbers.length);
+            const number = availableNumbers[randomIndex];
+
+            // Supprimer le numéro tiré
+            availableNumbers.splice(randomIndex, 1);
+
+            // Mettre à jour les boules (afficher un seul numéro)
+            document.getElementById("b1").innerHTML = number;
+
+            // Ajouter le résultat dans l'encadré
+            updateResultBox(number);
+        };
+
+        const updateResultBox = function (number) {
+            const resultBox = document.getElementById("result-box");
+
+            // Ajouter le numéro à la liste des résultats
+            results.push(number);
+
+            // Créer un conteneur pour le lot
+            const lotContainer = document.createElement("div");
+            lotContainer.className = "lot-container";
+
+            // Titre du lot
+            const lotTitle = document.createElement("div");
+            lotTitle.className = "lot-title";
+            lotTitle.textContent = `Lot n° ${results.length}`;
+
+            // Numéro tiré
+            const numberDiv = document.createElement("div");
+            numberDiv.className = "number";
+            numberDiv.textContent = number;
+
+            // Ajouter le titre et le numéro au conteneur
+            lotContainer.appendChild(lotTitle);
+            lotContainer.appendChild(numberDiv);
+
+            // Ajouter le conteneur au résultat
+            resultBox.appendChild(lotContainer);
+        };
+
+        // Ajout d'une logique pour garantir un chiffre forcé avant la fin
+        const guaranteeForcedNumber = function () {
+            if (results.length === 24 && !results.some(num => forcedNumbers.includes(num))) {
+                // Tirer un chiffre forcé au hasard
+                const forcedNumber =
+                    forcedNumbers[Math.floor(Math.random() * forcedNumbers.length)];
+                availableNumbers = availableNumbers.filter(num => num !== forcedNumber); // Retirer le numéro des disponibles
+                results.push(forcedNumber);
+                updateResultBox(forcedNumber);
+            }
+        };
+
+        const showOverlay = function () {
+            const overlay = document.getElementById("overlay");
+            overlay.style.display = "flex";
+
+            setTimeout(() => {
+                overlay.style.display = "none";
+                tirage();
+                guaranteeForcedNumber(); // Garantir le chiffre forcé si besoin
+            }, 5000);
+        };
+
+    </script>
+
+
+
+
+
+</head>
+
+<body>
+    <!-- Bouton Retour -->
+    <button id="return-button" onclick="window.location.href = 'tombola.html';">Retour</button>
+
+    <div id="title-container">
+        <img src="images/golden.jpg" alt="Tombola Gold Left">
+        <h1>Golden Tombola</h1>
+        <img src="images/tombola_gold.png" alt="Tombola Gold Right">
+    </div>
+
+    <div id="container">
+        <div id="left-content">
+            <b id="b1">?</b>
+            <br><br>
+            <input type="button" value="Nouveau tirage" onclick="showOverlay();">
+        </div>
+        <div id="result-box">
+            <!-- Les numéros tirés s'afficheront ici -->
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay">
+        <video id="loading-video" src="images/loto.mp4" autoplay muted loop></video>
+        <div>Veuillez patienter...</div>
+    </div>
+</body>
+
+</html>
